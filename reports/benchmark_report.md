@@ -1,14 +1,12 @@
 # Benchmark Report
 
 This report compares the Single-Agent Baseline with the Multi-Agent Workflow.
-# Benchmark Report
-
-This report compares the Single-Agent Baseline with the Multi-Agent Workflow.
 
 | Run | Latency (s) | Cost (USD) | Quality | Notes |
 |---|---:|---:|---:|---|
-| Single-Agent Baseline | 5.78 | 0.0001 | 2.0 | Iterations: 1. Sources: 0. Errors: 0 |
-| Multi-Agent Workflow | 21.71 | 0.0004 | 8.5 | Iterations: 4. Sources: 5. Errors: 0 |
+| Single-Agent Baseline | 6.06 | 0.0001 | 2.0 | Iterations: 1. Sources: 0. Errors: 0 |
+| Multi-Agent Workflow | 20.52 | 0.0005 | 8.5 | Iterations: 5. Sources: 5. Errors: 0 |
+
 
 ## LangSmith Trace Screenshot
 

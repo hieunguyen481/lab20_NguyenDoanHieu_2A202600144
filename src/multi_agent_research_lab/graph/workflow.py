@@ -5,6 +5,7 @@ from multi_agent_research_lab.agents.supervisor import SupervisorAgent
 from multi_agent_research_lab.agents.researcher import ResearcherAgent
 from multi_agent_research_lab.agents.analyst import AnalystAgent
 from multi_agent_research_lab.agents.writer import WriterAgent
+from multi_agent_research_lab.agents.critic import CriticAgent
 
 
 class MultiAgentWorkflow:
@@ -15,6 +16,7 @@ class MultiAgentWorkflow:
         self.researcher = ResearcherAgent()
         self.analyst = AnalystAgent()
         self.writer = WriterAgent()
+        self.critic = CriticAgent()
 
     def build(self) -> object:
         """Create a LangGraph graph."""
@@ -24,6 +26,7 @@ class MultiAgentWorkflow:
         workflow.add_node("researcher", self.researcher.run)
         workflow.add_node("analyst", self.analyst.run)
         workflow.add_node("writer", self.writer.run)
+        workflow.add_node("critic", self.critic.run)
 
         workflow.add_edge(START, "supervisor")
 
@@ -31,7 +34,7 @@ class MultiAgentWorkflow:
             if not state.route_history:
                 return END
             last_route = state.route_history[-1]
-            if last_route == "done" or last_route not in ["researcher", "analyst", "writer"]:
+            if last_route == "done" or last_route not in ["researcher", "analyst", "writer", "critic"]:
                 return END
             return last_route
 
@@ -42,6 +45,7 @@ class MultiAgentWorkflow:
                 "researcher": "researcher",
                 "analyst": "analyst",
                 "writer": "writer",
+                "critic": "critic",
                 END: END,
             },
         )
@@ -49,6 +53,7 @@ class MultiAgentWorkflow:
         workflow.add_edge("researcher", "supervisor")
         workflow.add_edge("analyst", "supervisor")
         workflow.add_edge("writer", "supervisor")
+        workflow.add_edge("critic", "supervisor")
 
         return workflow.compile()
 

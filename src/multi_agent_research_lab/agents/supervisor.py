@@ -19,17 +19,23 @@ class SupervisorAgent(BaseAgent):
             state.record_route("done")
             return state
 
-        system_prompt = """You are a supervisor managing a research team.
+        last_route = state.route_history[-1] if state.route_history else None
+
+        system_prompt = f"""You are a supervisor managing a research team.
         The team has:
         - researcher: Finds raw sources and extracts research notes.
         - analyst: Structures research notes into analysis notes.
         - writer: Synthesizes analysis notes into a final answer.
+        - critic: Evaluates the writer's output.
         
-        Analyze the current state and choose the next worker: 'researcher', 'analyst', 'writer', or 'done'.
+        Analyze the current state and choose the next worker: 'researcher', 'analyst', 'writer', 'critic', or 'done'.
         If there are no research notes, call researcher.
         If there are research notes but no analysis notes, call analyst.
         If there are analysis notes but no final answer, call writer.
-        If there is a final answer, return 'done'.
+        If there is a final answer and the last worker was 'writer', call critic.
+        If there is a final answer and the last worker was 'critic', return 'done'.
+        
+        The last worker was: '{last_route}'
         
         Output ONLY a JSON object with a single key 'next_worker' whose value is the name of the worker.
         """
