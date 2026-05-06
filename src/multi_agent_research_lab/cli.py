@@ -1,5 +1,9 @@
 """Command-line entrypoint for the lab starter."""
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 from typing import Annotated
 
 import typer
@@ -17,9 +21,17 @@ app = typer.Typer(help="Multi-Agent Research Lab starter CLI")
 console = Console()
 
 
+import os
+
 def _init() -> None:
     settings = get_settings()
     configure_logging(settings.log_level)
+    
+    if settings.langsmith_api_key:
+        os.environ["LANGCHAIN_TRACING_V2"] = "true"
+        os.environ["LANGCHAIN_API_KEY"] = settings.langsmith_api_key
+        os.environ["LANGCHAIN_PROJECT"] = settings.langsmith_project
+        os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
 
 
 @app.command()

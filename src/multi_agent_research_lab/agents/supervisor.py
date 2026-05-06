@@ -19,7 +19,7 @@ class SupervisorAgent(BaseAgent):
             state.record_route("done")
             return state
 
-        system_prompt = \"\"\"You are a supervisor managing a research team.
+        system_prompt = """You are a supervisor managing a research team.
         The team has:
         - researcher: Finds raw sources and extracts research notes.
         - analyst: Structures research notes into analysis notes.
@@ -32,15 +32,15 @@ class SupervisorAgent(BaseAgent):
         If there is a final answer, return 'done'.
         
         Output ONLY a JSON object with a single key 'next_worker' whose value is the name of the worker.
-        \"\"\"
+        """
 
-        user_prompt = f\"\"\"
+        user_prompt = f"""
         Query: {state.request.query}
         Iteration: {state.iteration}
         Research Notes Present: {bool(state.research_notes)}
         Analysis Notes Present: {bool(state.analysis_notes)}
         Final Answer Present: {bool(state.final_answer)}
-        \"\"\"
+        """
 
         try:
             response = self.llm.complete(system_prompt, user_prompt)

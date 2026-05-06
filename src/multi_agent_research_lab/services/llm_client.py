@@ -17,11 +17,14 @@ class LLMResponse:
     cost_usd: float | None = None
 
 
+from multi_agent_research_lab.core.config import get_settings
+
 class LLMClient:
     """Provider-agnostic LLM client skeleton."""
 
     def __init__(self, model: str = "gpt-4o-mini") -> None:
-        self.client = OpenAI()
+        settings = get_settings()
+        self.client = OpenAI(api_key=settings.openai_api_key)
         self.model = model
 
     def complete(self, system_prompt: str, user_prompt: str) -> LLMResponse:

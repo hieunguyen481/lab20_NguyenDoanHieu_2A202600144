@@ -7,7 +7,7 @@ name = "multi-agent-research-lab"
 version = "0.1.0"
 description = "Production-grade starter skeleton for a multi-agent research lab"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 authors = [{ name = "VinUniversity AI Lab" }]
 dependencies = [
   "pydantic>=2.7",
@@ -29,7 +29,7 @@ llm = [
 dev = [
   "pytest>=8.2",
   "pytest-cov>=5.0",
-  "ruff>=0.5",
+  "ruff==0.5.0",
   "mypy>=1.10",
   "pre-commit>=3.7"
 ]
