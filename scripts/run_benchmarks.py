@@ -38,6 +38,19 @@ def main():
     print("\nGenerating report...")
     report_md = render_markdown_report([baseline_metrics, multi_agent_metrics])
     
+    report_md += """
+
+## LangSmith Trace Screenshot
+
+![LangSmith Trace](trace.png)
+
+## Failure Mode & How to Fix
+
+**Failure mode:** Hệ thống bị kẹt trong một vòng lặp vô tận (infinite loop) khi `Analyst` liên tục cho rằng `research_notes` chưa đủ chất lượng và yêu cầu `Supervisor` trả ngược lại cho `Researcher` đi tìm kiếm lại, nhưng dữ liệu tìm kiếm trả về không thay đổi. Điều này khiến cả 3 Agents cứ chuyền tay nhau liên tục làm tốn chi phí API và không bao giờ ra được kết quả cuối cùng.
+
+**Cách fix:** Thiết lập giới hạn số vòng lặp tối đa (guardrail `max_iterations`). Khi đạt đến `state.iteration >= 5`, `Supervisor` sẽ có cơ chế bắt buộc phải chuyển hướng (route) sang trạng thái `done` hoặc `writer` để kết thúc chương trình. Đoạn code này đã được implement tại logic của `SupervisorAgent`.
+"""
+    
     os.makedirs("reports", exist_ok=True)
     with open("reports/benchmark_report.md", "w", encoding="utf-8") as f:
         f.write(report_md)
